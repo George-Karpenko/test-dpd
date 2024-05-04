@@ -5,7 +5,7 @@ import BaseFormInput from "@/components/BaseFormInput.vue";
 import BaseTable from "@/components/BaseTable.vue";
 import BasePagination from "@/components/BasePagination.vue";
 import { Field } from "@/@types";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import useRouter from "./composables/useRouter";
 import BaseFormGroup from "./components/BaseFormGroup.vue";
 import { debounce } from "./helpers";
@@ -55,10 +55,16 @@ const fields: Field[] = [
   },
 ];
 
+const tableWrapper = ref<HTMLElement | null>(null);
+
 const search = debounce((value: string) => {
   users.filters.search = value;
   console.log(users.filters.search);
 }, 500);
+
+const scrollToTableWrapper = () => {
+  tableWrapper.value?.scrollIntoView({ behavior: "smooth" });
+};
 </script>
 
 <template>
@@ -69,7 +75,7 @@ const search = debounce((value: string) => {
       @input="search($event.target.value)"
     />
   </BaseFormGroup>
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto" ref="tableWrapper">
     <BaseTable
       v-model:sort-by="users.filters.sortBy"
       v-model:sort-desc="users.filters.sortDesc"
@@ -86,6 +92,7 @@ const search = debounce((value: string) => {
       v-model="users.pagination.currentPage"
       :lastPage="users.pagination.lastPage"
       :perPage="users.pagination.perPage"
+      @update:model-value="scrollToTableWrapper"
     ></BasePagination>
   </div>
 </template>
