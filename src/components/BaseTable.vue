@@ -101,6 +101,7 @@ const classes = computed(() => {
   width: 100%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   border-collapse: collapse;
+  height: 100%;
 }
 
 .table__cell {
@@ -134,7 +135,6 @@ const classes = computed(() => {
   padding: 1em 2em;
   margin: 0;
   font-size: 1em;
-  max-height: 50px;
 }
 
 .table__cell--header span {
